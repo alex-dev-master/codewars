@@ -1,6 +1,13 @@
 package main
 
+import "github.com/alex-dev-master/codewars/kata"
+
 func main() {
+	//Tickets
+	//println(kata.Tickets([]int{25, 25, 50}))
+	println(kata.Tickets([]int{25, 25, 50, 50, 100}))
+
+
 	//countSheep
 	//print(kata.CountSheep(1))
 
