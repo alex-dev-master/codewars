@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/alex-dev-master/codewars/utils"
 	"strconv"
-	"strings",
+	"strings"
 )
 
 func main() {
@@ -11,21 +12,51 @@ func main() {
 	//print(countSheep(1))
 
 	//StockList
-	var b = []string{"BBAR 150", "CDXE 515", "BKWR 250", "BTSQ 890", "DRTY 600"}
-	var c = []string{"A", "B", "C", "D"}
-	print(StockList(b,c))
+	var b = []string{"eBBAR 150", "eCDXE 515", "eBKWR 250", "eBTSQ 890", "eDRTY 600"}
+	var c = []string{}
+	print(StockList(b, c))
 }
 
+type Categories struct {
+	name  string
+	value int
+}
 
 func StockList(listArt []string, listCat []string) string {
-	for _, value := range listArt {
-		valueArr := strings.Split(value, "")
-		fmt.Printf("%v\n", valueArr)
-		//checkArr, indx := InArray(valueArr[0], listCat)
-		fmt.Printf("%t , %d \n", checkArr, indx)
+	if len(listArt) == 0 || len(listCat) == 0 {
+		return ""
 	}
 
-	return ""
+	var arrStrRes []Categories
+	for _, value := range listCat {
+		arrStrRes = append(arrStrRes, Categories{value, 0})
+	}
+
+	for _, value := range listArt {
+		valueArr := strings.Split(value, "")
+		checkArr, _ := utils.InArray(valueArr[0], listCat)
+		if checkArr {
+			valueNumArr := strings.Split(value, " ")
+			valueNum, _ := strconv.Atoi(valueNumArr[1])
+			for i := range arrStrRes {
+				if arrStrRes[i].name == valueArr[0] {
+					arrStrRes[i].value += valueNum
+				}
+			}
+		}
+	}
+
+	var strRes strings.Builder
+	var counter int = 1
+	for _, item := range arrStrRes {
+		if len(arrStrRes) == counter {
+			strRes.WriteString(fmt.Sprintf("(%s : %d)", item.name, item.value))
+			break
+		}
+		strRes.WriteString(fmt.Sprintf("(%s : %d) - ", item.name, item.value))
+		counter++
+	}
+	return strRes.String()
 }
 
 func countSheep(num int) string {
@@ -35,7 +66,7 @@ func countSheep(num int) string {
 	}
 	var str strings.Builder
 	for i := 0; i < num; i++ {
-		str.WriteString(strconv.Itoa(i+1))
+		str.WriteString(strconv.Itoa(i + 1))
 		str.WriteString(" sheep...")
 	}
 	return str.String()
@@ -44,15 +75,15 @@ func countSheep(num int) string {
 func FindUniq(arr []float32) float32 {
 	for i := 0; i < len(arr); i++ {
 		current := arr[i]
-		if (i+1) == len(arr) {
+		if (i + 1) == len(arr) {
 			return current
 		}
 		next := arr[i+1]
 		if current != next {
-			if (i+2) >= len(arr) {
+			if (i + 2) >= len(arr) {
 				return next
 			}
-			if current != arr[i+2]{
+			if current != arr[i+2] {
 				return current
 			} else {
 				return next
